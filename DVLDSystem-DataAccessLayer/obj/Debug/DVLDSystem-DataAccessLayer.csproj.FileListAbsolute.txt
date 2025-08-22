@@ -1,0 +1,12 @@
+C:\Course 18 Projects\Project 4 DVLD System1\DVLDSystem-DataAccessLayer\bin\Debug\DVLDSystem-DataAccessLayer.dll
+C:\Course 18 Projects\Project 4 DVLD System1\DVLDSystem-DataAccessLayer\bin\Debug\DVLDSystem-DataAccessLayer.pdb
+C:\Course 18 Projects\Project 4 DVLD System1\DVLDSystem-DataAccessLayer\obj\Debug\DVLDSystem-DataAccessLayer.csproj.AssemblyReference.cache
+C:\Course 18 Projects\Project 4 DVLD System1\DVLDSystem-DataAccessLayer\obj\Debug\DVLDSystem-DataAccessLayer.csproj.CoreCompileInputs.cache
+C:\Course 18 Projects\Project 4 DVLD System1\DVLDSystem-DataAccessLayer\obj\Debug\DVLDSystem-DataAccessLayer.dll
+C:\Course 18 Projects\Project 4 DVLD System1\DVLDSystem-DataAccessLayer\obj\Debug\DVLDSystem-DataAccessLayer.pdb
+C:\My_Projects\Project 17 _ DVLD System\DVLDSystem-DataAccessLayer\bin\Debug\DVLDSystem-DataAccessLayer.dll
+C:\My_Projects\Project 17 _ DVLD System\DVLDSystem-DataAccessLayer\bin\Debug\DVLDSystem-DataAccessLayer.pdb
+C:\My_Projects\Project 17 _ DVLD System\DVLDSystem-DataAccessLayer\obj\Debug\DVLDSystem-DataAccessLayer.csproj.AssemblyReference.cache
+C:\My_Projects\Project 17 _ DVLD System\DVLDSystem-DataAccessLayer\obj\Debug\DVLDSystem-DataAccessLayer.csproj.CoreCompileInputs.cache
+C:\My_Projects\Project 17 _ DVLD System\DVLDSystem-DataAccessLayer\obj\Debug\DVLDSystem-DataAccessLayer.dll
+C:\My_Projects\Project 17 _ DVLD System\DVLDSystem-DataAccessLayer\obj\Debug\DVLDSystem-DataAccessLayer.pdb

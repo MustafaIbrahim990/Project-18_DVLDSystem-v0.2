@@ -1,0 +1,1490 @@
+--First  : Open Sql (Server Managment Studio).
+--Second : Run This Script.
+--Third  : Congratulations, Now You have DVLD_DataBase.
+
+
+USE [master]
+GO
+/****** Object:  Database [DVLD_DataBase]    Script Date: 6/29/2025 5:50:34 PM ******/
+CREATE DATABASE [DVLD_DataBase]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'DVLD_DataBase', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\DVLD_DataBase.mdf' , SIZE = 73728KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'DVLD_DataBase_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\DVLD_DataBase_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [DVLD_DataBase] SET COMPATIBILITY_LEVEL = 160
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [DVLD_DataBase].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [DVLD_DataBase] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [DVLD_DataBase] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [DVLD_DataBase] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [DVLD_DataBase] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [DVLD_DataBase] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET RECOVERY FULL 
+GO
+ALTER DATABASE [DVLD_DataBase] SET  MULTI_USER 
+GO
+ALTER DATABASE [DVLD_DataBase] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [DVLD_DataBase] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [DVLD_DataBase] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [DVLD_DataBase] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [DVLD_DataBase] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [DVLD_DataBase] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'DVLD_DataBase', N'ON'
+GO
+ALTER DATABASE [DVLD_DataBase] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [DVLD_DataBase] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [DVLD_DataBase]
+GO
+/****** Object:  Table [dbo].[LicenseClasses]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LicenseClasses](
+	[LicenseClassID] [int] IDENTITY(1,1) NOT NULL,
+	[ClassName] [nvarchar](50) NOT NULL,
+	[ClassDescription] [nvarchar](500) NOT NULL,
+	[MinimumAllowedAge] [tinyint] NOT NULL,
+	[DefaultValidityLength] [tinyint] NOT NULL,
+	[ClassFees] [smallmoney] NOT NULL,
+ CONSTRAINT [PK__LicenseC__50F723353DCA14BE] PRIMARY KEY CLUSTERED 
+(
+	[LicenseClassID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LocalDrivingLicenseApplications]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LocalDrivingLicenseApplications](
+	[LocalDrivingLicenseApplicationID] [int] IDENTITY(1,1) NOT NULL,
+	[ApplicationID] [int] NOT NULL,
+	[LicenseClassID] [int] NOT NULL,
+ CONSTRAINT [PK__LocalDri__8018B64D1729B04F] PRIMARY KEY CLUSTERED 
+(
+	[LocalDrivingLicenseApplicationID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[People]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[People](
+	[PersonID] [int] IDENTITY(1,1) NOT NULL,
+	[NationalNo] [nvarchar](20) NOT NULL,
+	[FirstName] [nvarchar](20) NOT NULL,
+	[SecondName] [nvarchar](20) NOT NULL,
+	[ThirdName] [nvarchar](20) NULL,
+	[LastName] [nvarchar](20) NOT NULL,
+	[Gender] [tinyint] NOT NULL,
+	[NationalityCountryID] [int] NOT NULL,
+	[DateOfBirth] [datetime] NOT NULL,
+	[Address] [nvarchar](500) NOT NULL,
+	[Phone] [nvarchar](20) NOT NULL,
+	[Email] [nvarchar](50) NULL,
+	[ImagePath] [nvarchar](250) NULL,
+ CONSTRAINT [PK__People__AA2FFB85BFC020BF] PRIMARY KEY CLUSTERED 
+(
+	[PersonID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Tests]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Tests](
+	[TestID] [int] IDENTITY(1,1) NOT NULL,
+	[TestAppointmentID] [int] NOT NULL,
+	[TestResult] [bit] NOT NULL,
+	[Notes] [nvarchar](500) NULL,
+	[CreatedByUserID] [int] NOT NULL,
+ CONSTRAINT [PK__Tests__8CC33100DD8485B1] PRIMARY KEY CLUSTERED 
+(
+	[TestID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Applications]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Applications](
+	[ApplicationID] [int] IDENTITY(1,1) NOT NULL,
+	[ApplicationDate] [datetime] NOT NULL,
+	[ApplicantPersonID] [int] NOT NULL,
+	[ApplicationTypeID] [int] NOT NULL,
+	[ApplicationStatus] [tinyint] NOT NULL,
+	[LastStatusDate] [datetime] NOT NULL,
+	[PaidFees] [smallmoney] NOT NULL,
+	[CreatedByUserID] [int] NOT NULL,
+ CONSTRAINT [PK__Applicat__C93A4F7948348ACB] PRIMARY KEY CLUSTERED 
+(
+	[ApplicationID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TestAppointments]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TestAppointments](
+	[TestAppointmentID] [int] IDENTITY(1,1) NOT NULL,
+	[AppointmentDate] [smalldatetime] NOT NULL,
+	[LocalDrivingLicenseApplicationID] [int] NOT NULL,
+	[TestTypeID] [int] NOT NULL,
+	[PaidFees] [smallmoney] NOT NULL,
+	[IsLocked] [bit] NOT NULL,
+	[RetakeTestApplicationID] [int] NULL,
+	[CreatedByUserID] [int] NOT NULL,
+ CONSTRAINT [PK__TestAppo__B8255A50923D4531] PRIMARY KEY CLUSTERED 
+(
+	[TestAppointmentID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[LocalDrivingLicenseApplications_View]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[LocalDrivingLicenseApplications_View]
+AS
+SELECT dbo.LocalDrivingLicenseApplications.LocalDrivingLicenseApplicationID, dbo.LicenseClasses.ClassName, dbo.People.NationalNo, dbo.People.FirstName + ' ' + dbo.People.SecondName + ' ' + ISNULL(dbo.People.ThirdName, '') 
+                  + ' ' + dbo.People.LastName AS FullName, dbo.Applications.ApplicationDate,
+                      (SELECT COUNT(dbo.TestAppointments.TestTypeID) AS PassedTestCount
+                       FROM      dbo.Tests INNER JOIN
+                                         dbo.TestAppointments ON dbo.Tests.TestAppointmentID = dbo.TestAppointments.TestAppointmentID
+                       WHERE   (dbo.TestAppointments.LocalDrivingLicenseApplicationID = dbo.LocalDrivingLicenseApplications.LocalDrivingLicenseApplicationID) AND (dbo.Tests.TestResult = 1)) AS PassedTestCount, 
+                  CASE WHEN Applications.ApplicationStatus = 1 THEN 'New' WHEN Applications.ApplicationStatus = 2 THEN 'Cancelled' WHEN Applications.ApplicationStatus = 3 THEN 'Completed' END AS Status
+FROM     dbo.LocalDrivingLicenseApplications INNER JOIN
+                  dbo.LicenseClasses ON dbo.LocalDrivingLicenseApplications.LicenseClassID = dbo.LicenseClasses.LicenseClassID INNER JOIN
+                  dbo.Applications ON dbo.LocalDrivingLicenseApplications.ApplicationID = dbo.Applications.ApplicationID INNER JOIN
+                  dbo.People ON dbo.Applications.ApplicantPersonID = dbo.People.PersonID
+GO
+/****** Object:  Table [dbo].[Drivers]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Drivers](
+	[DriverID] [int] IDENTITY(1,1) NOT NULL,
+	[PersonID] [int] NOT NULL,
+	[CreatedDate] [smalldatetime] NOT NULL,
+	[CreatedByUserID] [int] NOT NULL,
+ CONSTRAINT [PK__Drivers__F1B1CD24F679018D] PRIMARY KEY CLUSTERED 
+(
+	[DriverID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[DrivingLicenses]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DrivingLicenses](
+	[DrivingLicenseID] [int] IDENTITY(1,1) NOT NULL,
+	[ApplicationID] [int] NOT NULL,
+	[DriverID] [int] NOT NULL,
+	[LicenseClassID] [int] NOT NULL,
+	[IssueDate] [datetime] NOT NULL,
+	[ExpriationDate] [datetime] NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[IssueReason] [tinyint] NOT NULL,
+	[Notes] [nvarchar](500) NULL,
+	[PaidFees] [smallmoney] NOT NULL,
+	[CreatedByUserID] [int] NOT NULL,
+ CONSTRAINT [PK__DrivingL__42EEB788A8285E5A] PRIMARY KEY CLUSTERED 
+(
+	[DrivingLicenseID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[Drivers_View]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[Drivers_View]
+AS
+SELECT dbo.Drivers.DriverID, dbo.People.PersonID, dbo.People.NationalNo, dbo.People.FirstName + ' ' + dbo.People.SecondName + ' ' + ISNULL(dbo.People.ThirdName, ' ') + ' ' + dbo.People.LastName AS FullName, dbo.Drivers.CreatedDate, 
+                  COUNT(dbo.DrivingLicenses.DrivingLicenseID) AS NumberOfActiveLicenses
+FROM     dbo.DrivingLicenses INNER JOIN
+                  dbo.Drivers ON dbo.DrivingLicenses.DriverID = dbo.Drivers.DriverID INNER JOIN
+                  dbo.People ON dbo.Drivers.PersonID = dbo.People.PersonID
+WHERE  (dbo.DrivingLicenses.IsActive = 1)
+GROUP BY dbo.Drivers.DriverID, dbo.People.PersonID, dbo.People.NationalNo, dbo.People.FirstName, dbo.People.SecondName, dbo.People.ThirdName, dbo.People.LastName, dbo.Drivers.CreatedDate
+GO
+/****** Object:  Table [dbo].[ApplicationTypes]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ApplicationTypes](
+	[ApplicationTypeID] [int] IDENTITY(1,1) NOT NULL,
+	[ApplicationTypeTitle] [nvarchar](150) NOT NULL,
+	[ApplicationFees] [smallmoney] NOT NULL,
+ CONSTRAINT [PK__Applicat__2821511A5FCCCCF0] PRIMARY KEY CLUSTERED 
+(
+	[ApplicationTypeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Countries]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Countries](
+	[CountryID] [int] IDENTITY(1,1) NOT NULL,
+	[CountryName] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK__Countrie__10D160BFD48FBC93] PRIMARY KEY CLUSTERED 
+(
+	[CountryID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[DetainedDrivingLicenses]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DetainedDrivingLicenses](
+	[DetainID] [int] IDENTITY(1,1) NOT NULL,
+	[DetainDate] [smalldatetime] NOT NULL,
+	[DrivingLicenseID] [int] NOT NULL,
+	[FineFees] [smallmoney] NOT NULL,
+	[CreatedByUserID] [int] NOT NULL,
+	[IsReleased] [bit] NOT NULL,
+	[ReleaseDate] [smalldatetime] NULL,
+	[ReleasedByUserID] [int] NULL,
+	[ReleaseApplicationID] [int] NULL,
+ CONSTRAINT [PK__Detained__13D83D5F1C6DF9BE] PRIMARY KEY CLUSTERED 
+(
+	[DetainID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[InternationalDrivingLicenses]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[InternationalDrivingLicenses](
+	[InternationalDrivingLicenseID] [int] IDENTITY(1,1) NOT NULL,
+	[ApplicationID] [int] NOT NULL,
+	[DriverID] [int] NOT NULL,
+	[IssuedUsingDrivingLicenseID] [int] NOT NULL,
+	[IssueDate] [smalldatetime] NOT NULL,
+	[ExpriationDate] [smalldatetime] NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedByUserID] [int] NOT NULL,
+ CONSTRAINT [PK__Internat__597CA8C0745E76C9] PRIMARY KEY CLUSTERED 
+(
+	[InternationalDrivingLicenseID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TestTypes]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TestTypes](
+	[TestTypeID] [int] IDENTITY(1,1) NOT NULL,
+	[TestTypeTitle] [nvarchar](100) NOT NULL,
+	[TestTypeDescription] [nvarchar](500) NOT NULL,
+	[TestTypeFees] [smallmoney] NOT NULL,
+ CONSTRAINT [PK__TestType__9BB87646B671E8EE] PRIMARY KEY CLUSTERED 
+(
+	[TestTypeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 6/29/2025 5:50:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[UserID] [int] IDENTITY(1,1) NOT NULL,
+	[PersonID] [int] NOT NULL,
+	[UserName] [nvarchar](20) NOT NULL,
+	[PassWord] [nvarchar](64) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+ CONSTRAINT [PK__Users__1788CCAC7B4DB40E] PRIMARY KEY CLUSTERED 
+(
+	[UserID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Applications] ON 
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (70, CAST(N'2025-05-02T00:02:17.177' AS DateTime), 1, 1, 3, CAST(N'2025-05-02T00:04:24.070' AS DateTime), 15.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (71, CAST(N'2025-05-02T00:05:12.693' AS DateTime), 63, 1, 2, CAST(N'2025-05-02T00:06:22.713' AS DateTime), 15.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (72, CAST(N'2025-06-18T08:13:39.190' AS DateTime), 60, 1, 3, CAST(N'2025-06-18T08:15:01.210' AS DateTime), 15.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (74, CAST(N'2025-06-18T08:21:14.430' AS DateTime), 56, 1, 3, CAST(N'2025-06-18T08:22:21.680' AS DateTime), 15.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (77, CAST(N'2025-06-18T09:55:08.423' AS DateTime), 60, 6, 3, CAST(N'2025-06-18T09:55:08.453' AS DateTime), 50.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (78, CAST(N'2025-06-23T12:30:53.880' AS DateTime), 59, 1, 3, CAST(N'2025-06-23T12:33:06.627' AS DateTime), 15.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (88, CAST(N'2025-06-25T10:24:31.507' AS DateTime), 1, 2, 3, CAST(N'2025-06-25T10:24:31.507' AS DateTime), 5.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (89, CAST(N'2025-06-25T10:31:49.237' AS DateTime), 1, 2, 3, CAST(N'2025-06-25T10:31:49.237' AS DateTime), 5.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (90, CAST(N'2025-06-25T11:29:27.183' AS DateTime), 1, 2, 3, CAST(N'2025-06-25T11:29:27.183' AS DateTime), 5.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (91, CAST(N'2025-06-25T11:47:32.170' AS DateTime), 1, 2, 3, CAST(N'2025-06-25T11:47:32.170' AS DateTime), 5.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (92, CAST(N'2025-06-25T12:06:40.667' AS DateTime), 59, 2, 3, CAST(N'2025-06-25T12:06:40.667' AS DateTime), 5.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (93, CAST(N'2025-06-25T16:11:13.800' AS DateTime), 1, 2, 3, CAST(N'2025-06-25T16:11:13.800' AS DateTime), 5.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (94, CAST(N'2025-06-25T21:31:47.390' AS DateTime), 59, 3, 3, CAST(N'2025-06-25T21:31:51.260' AS DateTime), 10.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (95, CAST(N'2025-06-25T21:53:03.840' AS DateTime), 1, 4, 3, CAST(N'2025-06-25T21:53:03.840' AS DateTime), 5.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (96, CAST(N'2025-06-25T22:16:19.490' AS DateTime), 1, 3, 3, CAST(N'2025-06-25T22:16:19.490' AS DateTime), 10.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (97, CAST(N'2025-06-26T10:41:25.617' AS DateTime), 1, 3, 3, CAST(N'2025-06-26T10:41:25.617' AS DateTime), 10.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (98, CAST(N'2025-06-26T10:46:29.063' AS DateTime), 1, 4, 3, CAST(N'2025-06-26T10:46:29.063' AS DateTime), 5.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (99, CAST(N'2025-06-26T10:48:40.350' AS DateTime), 1, 4, 3, CAST(N'2025-06-26T10:48:41.280' AS DateTime), 5.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (100, CAST(N'2025-06-26T10:57:59.153' AS DateTime), 1, 4, 3, CAST(N'2025-06-26T10:57:59.153' AS DateTime), 5.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (101, CAST(N'2025-06-26T11:02:55.533' AS DateTime), 1, 4, 3, CAST(N'2025-06-26T11:02:55.533' AS DateTime), 5.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (102, CAST(N'2025-06-26T11:46:06.663' AS DateTime), 1, 2, 3, CAST(N'2025-06-26T11:46:06.663' AS DateTime), 5.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (103, CAST(N'2025-06-26T11:48:22.600' AS DateTime), 1, 2, 3, CAST(N'2025-06-26T11:48:22.600' AS DateTime), 5.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (104, CAST(N'2025-06-29T12:43:06.277' AS DateTime), 1, 5, 3, CAST(N'2025-06-29T12:43:25.280' AS DateTime), 15.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (105, CAST(N'2025-06-29T12:47:11.680' AS DateTime), 1, 5, 3, CAST(N'2025-06-29T12:47:11.680' AS DateTime), 15.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (106, CAST(N'2025-06-29T13:12:45.543' AS DateTime), 1, 5, 3, CAST(N'2025-06-29T13:12:45.543' AS DateTime), 15.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (107, CAST(N'2025-06-29T15:56:37.447' AS DateTime), 1, 5, 3, CAST(N'2025-06-29T15:56:37.447' AS DateTime), 15.0000, 1)
+GO
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicationDate], [ApplicantPersonID], [ApplicationTypeID], [ApplicationStatus], [LastStatusDate], [PaidFees], [CreatedByUserID]) VALUES (108, CAST(N'2025-06-29T15:57:20.010' AS DateTime), 1, 5, 3, CAST(N'2025-06-29T15:57:20.010' AS DateTime), 15.0000, 1)
+GO
+SET IDENTITY_INSERT [dbo].[Applications] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ApplicationTypes] ON 
+GO
+INSERT [dbo].[ApplicationTypes] ([ApplicationTypeID], [ApplicationTypeTitle], [ApplicationFees]) VALUES (1, N'New Local Driving License Service', 15.0000)
+GO
+INSERT [dbo].[ApplicationTypes] ([ApplicationTypeID], [ApplicationTypeTitle], [ApplicationFees]) VALUES (2, N'Renew Driving License Service', 5.0000)
+GO
+INSERT [dbo].[ApplicationTypes] ([ApplicationTypeID], [ApplicationTypeTitle], [ApplicationFees]) VALUES (3, N'Replacement for a Lost Driving License', 10.0000)
+GO
+INSERT [dbo].[ApplicationTypes] ([ApplicationTypeID], [ApplicationTypeTitle], [ApplicationFees]) VALUES (4, N'Replacement for a Damaged Driving License', 5.0000)
+GO
+INSERT [dbo].[ApplicationTypes] ([ApplicationTypeID], [ApplicationTypeTitle], [ApplicationFees]) VALUES (5, N'Release Detained Driving Licsense', 15.0000)
+GO
+INSERT [dbo].[ApplicationTypes] ([ApplicationTypeID], [ApplicationTypeTitle], [ApplicationFees]) VALUES (6, N'New International License', 50.0000)
+GO
+INSERT [dbo].[ApplicationTypes] ([ApplicationTypeID], [ApplicationTypeTitle], [ApplicationFees]) VALUES (7, N'Retake Test', 5.0000)
+GO
+SET IDENTITY_INSERT [dbo].[ApplicationTypes] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Countries] ON 
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (1, N'Afghanistan')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (2, N'Albania')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (3, N'Algeria')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (4, N'Andorra')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (5, N'Angola')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (6, N'Antigua and Barbuda')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (7, N'Argentina')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (8, N'Armenia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (9, N'Austria')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (10, N'Azerbaijan')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (11, N'Bahrain')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (12, N'Bangladesh')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (13, N'Barbados')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (14, N'Belarus')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (15, N'Belgium')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (16, N'Belize')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (17, N'Benin')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (18, N'Bhutan')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (19, N'Bolivia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (20, N'Bosnia and Herzegovina')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (21, N'Botswana')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (22, N'Brazil')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (23, N'Brunei')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (24, N'Bulgaria')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (25, N'Burkina Faso')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (26, N'Burundi')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (27, N'Cabo Verde')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (28, N'Cambodia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (29, N'Cameroon')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (30, N'Canada')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (31, N'Central African Republic')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (32, N'Chad')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (33, N'Channel Islands')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (34, N'Chile')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (35, N'China')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (36, N'Colombia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (37, N'Comoros')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (38, N'Congo')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (39, N'Costa Rica')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (40, N'Côte d''Ivoire')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (41, N'Croatia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (42, N'Cuba')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (43, N'Cyprus')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (44, N'Czech Republic')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (45, N'Denmark')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (46, N'Djibouti')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (47, N'Dominica')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (48, N'Dominican Republic')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (49, N'DR Congo')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (50, N'Ecuador')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (51, N'Egypt')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (52, N'El Salvador')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (53, N'Equatorial Guinea')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (54, N'Eritrea')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (55, N'Estonia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (56, N'Eswatini')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (57, N'Ethiopia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (58, N'Faeroe Islands')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (59, N'Finland')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (60, N'France')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (61, N'French Guiana')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (62, N'Gabon')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (63, N'Gambia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (64, N'Georgia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (65, N'Germany')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (66, N'Ghana')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (67, N'Gibraltar')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (68, N'Greece')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (69, N'Grenada')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (70, N'Guatemala')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (71, N'Guinea')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (72, N'Guinea-Bissau')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (73, N'Guyana')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (74, N'Haiti')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (75, N'Holy See')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (76, N'Honduras')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (77, N'Hong Kong')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (78, N'Hungary')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (79, N'Iceland')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (80, N'India')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (81, N'Indonesia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (82, N'Iran')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (83, N'Iraq')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (84, N'Ireland')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (85, N'Isle of Man')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (86, N'Israel')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (87, N'Italy')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (88, N'Jamaica')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (89, N'Japan')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (90, N'Jordan')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (91, N'Kazakhstan')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (92, N'Kenya')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (93, N'Kuwait')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (94, N'Kyrgyzstan')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (95, N'Laos')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (96, N'Latvia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (97, N'Lebanon')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (98, N'Lesotho')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (99, N'Liberia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (100, N'Libya')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (101, N'Liechtenstein')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (102, N'Lithuania')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (103, N'Luxembourg')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (104, N'Macao')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (105, N'Madagascar')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (106, N'Malawi')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (107, N'Malaysia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (108, N'Maldives')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (109, N'Mali')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (110, N'Malta')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (111, N'Mauritania')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (112, N'Mauritius')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (113, N'Mayotte')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (114, N'Mexico')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (115, N'Moldova')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (116, N'Monaco')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (117, N'Mongolia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (118, N'Montenegro')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (119, N'Morocco')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (120, N'Mozambique')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (121, N'Myanmar')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (122, N'Namibia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (123, N'Nepal')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (124, N'Netherlands')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (125, N'Nicaragua')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (126, N'Niger')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (127, N'Nigeria')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (128, N'North Korea')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (129, N'North Macedonia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (130, N'Norway')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (131, N'Oman')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (132, N'Pakistan')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (133, N'Panama')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (134, N'Paraguay')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (135, N'Peru')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (136, N'Philippines')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (137, N'Poland')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (138, N'Portugal')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (139, N'Qatar')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (140, N'Réunion')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (141, N'Romania')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (142, N'Russia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (143, N'Rwanda')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (144, N'Saint Helena')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (145, N'Saint Kitts and Nevis')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (146, N'Saint Lucia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (147, N'Saint Vincent and the Grenadines')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (148, N'San Marino')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (149, N'Sao Tome & Principe')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (150, N'Saudi Arabia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (151, N'Senegal')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (152, N'Serbia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (153, N'Seychelles')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (154, N'Sierra Leone')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (155, N'Singapore')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (156, N'Slovakia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (157, N'Slovenia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (158, N'Somalia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (159, N'South Africa')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (160, N'South Korea')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (161, N'South Sudan')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (162, N'Spain')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (163, N'Sri Lanka')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (164, N'State of Palestine')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (165, N'Sudan')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (166, N'Suriname')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (167, N'Sweden')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (168, N'Switzerland')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (169, N'Syria')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (170, N'Taiwan')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (171, N'Tajikistan')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (172, N'Tanzania')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (173, N'Thailand')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (174, N'The Bahamas')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (175, N'Timor-Leste')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (176, N'Togo')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (177, N'Trinidad and Tobago')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (178, N'Tunisia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (179, N'Turkey')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (180, N'Turkmenistan')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (181, N'Uganda')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (182, N'Ukraine')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (183, N'United Arab Emirates')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (184, N'United Kingdom')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (185, N'United States')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (186, N'Uruguay')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (187, N'Uzbekistan')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (188, N'Venezuela')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (189, N'Vietnam')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (190, N'Western Sahara')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (191, N'Yemen')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (192, N'Zambia')
+GO
+INSERT [dbo].[Countries] ([CountryID], [CountryName]) VALUES (193, N'Zimbabwe')
+GO
+SET IDENTITY_INSERT [dbo].[Countries] OFF
+GO
+SET IDENTITY_INSERT [dbo].[DetainedDrivingLicenses] ON 
+GO
+INSERT [dbo].[DetainedDrivingLicenses] ([DetainID], [DetainDate], [DrivingLicenseID], [FineFees], [CreatedByUserID], [IsReleased], [ReleaseDate], [ReleasedByUserID], [ReleaseApplicationID]) VALUES (9, CAST(N'2025-06-28T17:27:00' AS SmallDateTime), 38, 100.0000, 1, 1, CAST(N'2025-06-29T12:47:00' AS SmallDateTime), 1, 105)
+GO
+INSERT [dbo].[DetainedDrivingLicenses] ([DetainID], [DetainDate], [DrivingLicenseID], [FineFees], [CreatedByUserID], [IsReleased], [ReleaseDate], [ReleasedByUserID], [ReleaseApplicationID]) VALUES (10, CAST(N'2025-06-29T12:55:00' AS SmallDateTime), 38, 100.0000, 1, 1, CAST(N'2025-06-29T13:13:00' AS SmallDateTime), 1, 106)
+GO
+INSERT [dbo].[DetainedDrivingLicenses] ([DetainID], [DetainDate], [DrivingLicenseID], [FineFees], [CreatedByUserID], [IsReleased], [ReleaseDate], [ReleasedByUserID], [ReleaseApplicationID]) VALUES (11, CAST(N'2025-06-29T14:13:00' AS SmallDateTime), 38, 200.0000, 1, 1, CAST(N'2025-06-29T15:57:00' AS SmallDateTime), 1, 107)
+GO
+INSERT [dbo].[DetainedDrivingLicenses] ([DetainID], [DetainDate], [DrivingLicenseID], [FineFees], [CreatedByUserID], [IsReleased], [ReleaseDate], [ReleasedByUserID], [ReleaseApplicationID]) VALUES (12, CAST(N'2025-06-29T15:57:00' AS SmallDateTime), 38, 300.0000, 1, 1, CAST(N'2025-06-29T15:57:00' AS SmallDateTime), 1, 108)
+GO
+INSERT [dbo].[DetainedDrivingLicenses] ([DetainID], [DetainDate], [DrivingLicenseID], [FineFees], [CreatedByUserID], [IsReleased], [ReleaseDate], [ReleasedByUserID], [ReleaseApplicationID]) VALUES (13, CAST(N'2025-06-29T16:34:00' AS SmallDateTime), 38, 250.0000, 1, 0, NULL, NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[DetainedDrivingLicenses] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Drivers] ON 
+GO
+INSERT [dbo].[Drivers] ([DriverID], [PersonID], [CreatedDate], [CreatedByUserID]) VALUES (11, 1, CAST(N'2025-05-02T00:04:00' AS SmallDateTime), 1)
+GO
+INSERT [dbo].[Drivers] ([DriverID], [PersonID], [CreatedDate], [CreatedByUserID]) VALUES (12, 60, CAST(N'2025-06-18T08:15:00' AS SmallDateTime), 1)
+GO
+INSERT [dbo].[Drivers] ([DriverID], [PersonID], [CreatedDate], [CreatedByUserID]) VALUES (13, 56, CAST(N'2025-06-18T08:22:00' AS SmallDateTime), 1)
+GO
+INSERT [dbo].[Drivers] ([DriverID], [PersonID], [CreatedDate], [CreatedByUserID]) VALUES (14, 59, CAST(N'2025-06-23T12:33:00' AS SmallDateTime), 1)
+GO
+SET IDENTITY_INSERT [dbo].[Drivers] OFF
+GO
+SET IDENTITY_INSERT [dbo].[DrivingLicenses] ON 
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (10, 70, 11, 3, CAST(N'2022-05-02T00:04:24.060' AS DateTime), CAST(N'2023-05-02T00:04:24.060' AS DateTime), 0, 1, N'With Glasses', 15.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (11, 72, 12, 3, CAST(N'2025-06-18T08:15:01.203' AS DateTime), CAST(N'2035-06-18T08:15:01.203' AS DateTime), 1, 1, NULL, 15.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (12, 74, 13, 3, CAST(N'2025-06-18T08:22:21.673' AS DateTime), CAST(N'2035-06-18T08:22:21.673' AS DateTime), 1, 1, NULL, 15.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (13, 78, 14, 1, CAST(N'2022-06-23T12:33:06.620' AS DateTime), CAST(N'2023-06-23T12:33:06.620' AS DateTime), 0, 1, NULL, 15.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (23, 88, 11, 3, CAST(N'2022-06-25T10:24:31.530' AS DateTime), CAST(N'2023-06-25T10:24:31.530' AS DateTime), 0, 2, N'With glasses', 20.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (24, 89, 11, 3, CAST(N'2022-06-25T10:31:49.243' AS DateTime), CAST(N'2023-06-25T10:31:49.243' AS DateTime), 0, 2, NULL, 20.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (25, 90, 11, 3, CAST(N'2022-06-25T11:29:27.193' AS DateTime), CAST(N'2023-06-25T11:29:27.193' AS DateTime), 0, 2, NULL, 20.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (26, 91, 11, 3, CAST(N'2022-06-25T11:47:32.173' AS DateTime), CAST(N'2023-06-25T11:47:32.173' AS DateTime), 0, 2, NULL, 20.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (27, 92, 14, 1, CAST(N'2025-06-25T12:06:40.677' AS DateTime), CAST(N'2030-06-25T12:06:40.677' AS DateTime), 0, 2, NULL, 15.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (28, 93, 11, 3, CAST(N'2025-06-25T16:11:13.827' AS DateTime), CAST(N'2030-06-25T16:11:13.827' AS DateTime), 0, 2, NULL, 25.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (29, 94, 14, 1, CAST(N'2025-06-25T21:32:08.593' AS DateTime), CAST(N'2030-06-25T12:06:40.677' AS DateTime), 1, 3, NULL, 0.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (30, 95, 11, 3, CAST(N'2025-06-25T21:53:03.850' AS DateTime), CAST(N'2030-06-25T16:11:13.827' AS DateTime), 0, 4, NULL, 0.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (31, 96, 11, 3, CAST(N'2025-06-25T22:16:19.497' AS DateTime), CAST(N'2030-06-25T16:11:13.827' AS DateTime), 0, 3, NULL, 0.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (32, 97, 11, 3, CAST(N'2025-06-26T10:41:25.633' AS DateTime), CAST(N'2030-06-25T16:11:13.827' AS DateTime), 0, 3, NULL, 0.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (33, 98, 11, 3, CAST(N'2025-06-26T10:46:29.077' AS DateTime), CAST(N'2030-06-25T16:11:13.827' AS DateTime), 0, 4, NULL, 0.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (34, 99, 11, 3, CAST(N'2025-06-26T10:48:43.380' AS DateTime), CAST(N'2030-06-25T16:11:13.827' AS DateTime), 0, 4, NULL, 0.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (35, 100, 11, 3, CAST(N'2025-06-26T10:57:59.170' AS DateTime), CAST(N'2030-06-25T16:11:13.827' AS DateTime), 0, 4, NULL, 0.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (36, 101, 11, 3, CAST(N'2023-06-26T11:02:55.550' AS DateTime), CAST(N'2024-06-25T16:11:13.827' AS DateTime), 0, 4, NULL, 0.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (37, 102, 11, 3, CAST(N'2023-06-26T11:46:06.680' AS DateTime), CAST(N'2024-06-26T11:46:06.680' AS DateTime), 0, 2, NULL, 25.0000, 1)
+GO
+INSERT [dbo].[DrivingLicenses] ([DrivingLicenseID], [ApplicationID], [DriverID], [LicenseClassID], [IssueDate], [ExpriationDate], [IsActive], [IssueReason], [Notes], [PaidFees], [CreatedByUserID]) VALUES (38, 103, 11, 3, CAST(N'2025-06-26T11:48:22.613' AS DateTime), CAST(N'2030-06-26T11:48:22.613' AS DateTime), 1, 2, NULL, 25.0000, 1)
+GO
+SET IDENTITY_INSERT [dbo].[DrivingLicenses] OFF
+GO
+SET IDENTITY_INSERT [dbo].[InternationalDrivingLicenses] ON 
+GO
+INSERT [dbo].[InternationalDrivingLicenses] ([InternationalDrivingLicenseID], [ApplicationID], [DriverID], [IssuedUsingDrivingLicenseID], [IssueDate], [ExpriationDate], [IsActive], [CreatedByUserID]) VALUES (1, 70, 11, 10, CAST(N'2025-05-02T01:41:00' AS SmallDateTime), CAST(N'2035-05-02T01:42:00' AS SmallDateTime), 1, 1)
+GO
+INSERT [dbo].[InternationalDrivingLicenses] ([InternationalDrivingLicenseID], [ApplicationID], [DriverID], [IssuedUsingDrivingLicenseID], [IssueDate], [ExpriationDate], [IsActive], [CreatedByUserID]) VALUES (5, 77, 12, 11, CAST(N'2025-06-18T09:55:00' AS SmallDateTime), CAST(N'2026-06-18T09:55:00' AS SmallDateTime), 1, 1)
+GO
+SET IDENTITY_INSERT [dbo].[InternationalDrivingLicenses] OFF
+GO
+SET IDENTITY_INSERT [dbo].[LicenseClasses] ON 
+GO
+INSERT [dbo].[LicenseClasses] ([LicenseClassID], [ClassName], [ClassDescription], [MinimumAllowedAge], [DefaultValidityLength], [ClassFees]) VALUES (1, N'Class 1 - Small Motorcycle', N'It allows the driver to drive small motorcycles, It is suitable for motorcycles with small capacity and limited power.', 18, 5, 15.0000)
+GO
+INSERT [dbo].[LicenseClasses] ([LicenseClassID], [ClassName], [ClassDescription], [MinimumAllowedAge], [DefaultValidityLength], [ClassFees]) VALUES (2, N'Class 2 - Heavy Motorcycle License', N'Heavy Motorcycle License (Large Motorcycle License)', 21, 5, 30.0000)
+GO
+INSERT [dbo].[LicenseClasses] ([LicenseClassID], [ClassName], [ClassDescription], [MinimumAllowedAge], [DefaultValidityLength], [ClassFees]) VALUES (3, N'Class 3 - Ordinary driving license', N'Ordinary driving license (car licence)', 18, 10, 25.0000)
+GO
+INSERT [dbo].[LicenseClasses] ([LicenseClassID], [ClassName], [ClassDescription], [MinimumAllowedAge], [DefaultValidityLength], [ClassFees]) VALUES (4, N'Class 4 - Commercial', N'Commercial driving license (taxi/limousine)', 21, 10, 200.0000)
+GO
+INSERT [dbo].[LicenseClasses] ([LicenseClassID], [ClassName], [ClassDescription], [MinimumAllowedAge], [DefaultValidityLength], [ClassFees]) VALUES (5, N'Class 5 - Agricultural', N'Agricultural and work vehicles used in farming or construction, (tractors / tillage machinery)', 21, 10, 50.0000)
+GO
+INSERT [dbo].[LicenseClasses] ([LicenseClassID], [ClassName], [ClassDescription], [MinimumAllowedAge], [DefaultValidityLength], [ClassFees]) VALUES (6, N'Class 6 - Small and medium bus', N'Small and medium bus license', 21, 10, 250.0000)
+GO
+INSERT [dbo].[LicenseClasses] ([LicenseClassID], [ClassName], [ClassDescription], [MinimumAllowedAge], [DefaultValidityLength], [ClassFees]) VALUES (7, N'Class 7 - Truck and heavy vehicle', N'Truck and heavy vehicle license', 21, 10, 300.0000)
+GO
+SET IDENTITY_INSERT [dbo].[LicenseClasses] OFF
+GO
+SET IDENTITY_INSERT [dbo].[LocalDrivingLicenseApplications] ON 
+GO
+INSERT [dbo].[LocalDrivingLicenseApplications] ([LocalDrivingLicenseApplicationID], [ApplicationID], [LicenseClassID]) VALUES (43, 70, 3)
+GO
+INSERT [dbo].[LocalDrivingLicenseApplications] ([LocalDrivingLicenseApplicationID], [ApplicationID], [LicenseClassID]) VALUES (44, 71, 3)
+GO
+INSERT [dbo].[LocalDrivingLicenseApplications] ([LocalDrivingLicenseApplicationID], [ApplicationID], [LicenseClassID]) VALUES (45, 72, 3)
+GO
+INSERT [dbo].[LocalDrivingLicenseApplications] ([LocalDrivingLicenseApplicationID], [ApplicationID], [LicenseClassID]) VALUES (46, 74, 3)
+GO
+INSERT [dbo].[LocalDrivingLicenseApplications] ([LocalDrivingLicenseApplicationID], [ApplicationID], [LicenseClassID]) VALUES (47, 78, 1)
+GO
+SET IDENTITY_INSERT [dbo].[LocalDrivingLicenseApplications] OFF
+GO
+SET IDENTITY_INSERT [dbo].[People] ON 
+GO
+INSERT [dbo].[People] ([PersonID], [NationalNo], [FirstName], [SecondName], [ThirdName], [LastName], [Gender], [NationalityCountryID], [DateOfBirth], [Address], [Phone], [Email], [ImagePath]) VALUES (1, N'N1', N'Mustafa', N'Abdul-Razaq', N'', N'Ibrahim', 1, 169, CAST(N'2000-10-02T00:00:00.000' AS DateTime), N'B_265', N'07831265362', N'MustafaIbr@gmail.com', N'C:\Course 18 Projects\Project 4 DVLD System\DVLD_People_Images\6448719d-2eb0-4131-a46b-e85da3d3b9a0.png')
+GO
+INSERT [dbo].[People] ([PersonID], [NationalNo], [FirstName], [SecondName], [ThirdName], [LastName], [Gender], [NationalityCountryID], [DateOfBirth], [Address], [Phone], [Email], [ImagePath]) VALUES (3, N'N2', N'Ahmed', N'Ali', N'Mohammed', N'Khaled', 1, 1, CAST(N'2003-10-22T00:00:00.000' AS DateTime), N'A_126', N'075012743284', N'AhmedAli@gmail.com', N'C:\Course 18 Projects\Project 4 DVLD System\DVLD_People_Images\0eabd5b1-d230-46a9-b378-d8fdb9e2058e.png')
+GO
+INSERT [dbo].[People] ([PersonID], [NationalNo], [FirstName], [SecondName], [ThirdName], [LastName], [Gender], [NationalityCountryID], [DateOfBirth], [Address], [Phone], [Email], [ImagePath]) VALUES (23, N'n3', N'Sarah', N'Ahmed', N'Ali', N'Ahmed', 2, 169, CAST(N'2002-06-04T00:00:00.000' AS DateTime), N'D_270', N'07839521643', N'SarahAhmed@gmail.com', N'C:\Course 18 Projects\Project 4 DVLD System\DVLD_People_Images\83264a25-89f9-4623-b846-4f603e2fcb10.png')
+GO
+INSERT [dbo].[People] ([PersonID], [NationalNo], [FirstName], [SecondName], [ThirdName], [LastName], [Gender], [NationalityCountryID], [DateOfBirth], [Address], [Phone], [Email], [ImagePath]) VALUES (47, N'N5', N'Fadi', N'Khaled', N'Ahmed', N'Mohammed', 1, 169, CAST(N'2003-02-04T02:49:33.000' AS DateTime), N'D_328', N'0750362731', N'FadiAhmed@gmail.com', NULL)
+GO
+INSERT [dbo].[People] ([PersonID], [NationalNo], [FirstName], [SecondName], [ThirdName], [LastName], [Gender], [NationalityCountryID], [DateOfBirth], [Address], [Phone], [Email], [ImagePath]) VALUES (55, N'N4', N'Ahmed', N'Ali', N'jsajsa', N'jasjsa', 1, 169, CAST(N'2006-11-12T16:05:46.620' AS DateTime), N'sasakk', N'32893', NULL, N'C:\Course 18 Projects\Project 4 DVLD System\DVLD_People_Images\5e966dcb-f7c7-4690-ad6d-2ef831b6a876.png')
+GO
+INSERT [dbo].[People] ([PersonID], [NationalNo], [FirstName], [SecondName], [ThirdName], [LastName], [Gender], [NationalityCountryID], [DateOfBirth], [Address], [Phone], [Email], [ImagePath]) VALUES (56, N'n6', N'Lolo', N'Khalele', N'Ahmed', N'Mohammed', 2, 169, CAST(N'2006-11-13T01:25:39.363' AS DateTime), N'C-267', N'07503726427', N'LoloAhmed@gmail.com', N'C:\Course 18 Projects\Project 4 DVLD System\DVLD_People_Images\0d7e3ce2-397e-4242-99b7-2774e9f938d7.png')
+GO
+INSERT [dbo].[People] ([PersonID], [NationalNo], [FirstName], [SecondName], [ThirdName], [LastName], [Gender], [NationalityCountryID], [DateOfBirth], [Address], [Phone], [Email], [ImagePath]) VALUES (57, N'jsj', N'sahash', N'ssjsj', N'jsjsj', N'jsjs', 1, 169, CAST(N'2006-11-13T22:03:36.187' AS DateTime), N'jaak', N'238383', NULL, NULL)
+GO
+INSERT [dbo].[People] ([PersonID], [NationalNo], [FirstName], [SecondName], [ThirdName], [LastName], [Gender], [NationalityCountryID], [DateOfBirth], [Address], [Phone], [Email], [ImagePath]) VALUES (58, N'n7', N'Jan', N'Ahmed', N'Ali', N'Ali', 1, 169, CAST(N'2003-02-04T15:15:57.000' AS DateTime), N'E_378', N'07502375412', N'JanAhmed@gmail.com', N'C:\Course 18 Projects\Project 4 DVLD System\DVLD_People_Images\3051527d-402a-4a0f-a4da-546e9e745a89.png')
+GO
+INSERT [dbo].[People] ([PersonID], [NationalNo], [FirstName], [SecondName], [ThirdName], [LastName], [Gender], [NationalityCountryID], [DateOfBirth], [Address], [Phone], [Email], [ImagePath]) VALUES (59, N'N10', N'Mohammed', N'Omer', N'Almajed', N'Khaled', 1, 169, CAST(N'2002-02-01T01:03:20.000' AS DateTime), N'B_625', N'07518527612', N'MohammedOmer@gmail.com', N'C:\Course 18 Projects\Project 4 DVLD System\DVLD_People_Images\d1fd5c4c-748e-4a82-951c-17710e5fcea7.png')
+GO
+INSERT [dbo].[People] ([PersonID], [NationalNo], [FirstName], [SecondName], [ThirdName], [LastName], [Gender], [NationalityCountryID], [DateOfBirth], [Address], [Phone], [Email], [ImagePath]) VALUES (60, N'N11', N'Mahmood', N'Mohammed', N'Ali', N'Omer', 1, 169, CAST(N'2000-02-01T02:26:14.000' AS DateTime), N'F_76', N'07518726152', N'Mahmood@gmail.com', N'C:\Course 18 Projects\Project 4 DVLD System\DVLD_People_Images\136bb312-7cc8-461a-8041-b4bc3bdc64e1.png')
+GO
+INSERT [dbo].[People] ([PersonID], [NationalNo], [FirstName], [SecondName], [ThirdName], [LastName], [Gender], [NationalityCountryID], [DateOfBirth], [Address], [Phone], [Email], [ImagePath]) VALUES (62, N'n12', N'Ahmed', N'Ahmed', N'New', N'New', 1, 169, CAST(N'2007-04-19T00:12:15.883' AS DateTime), N'C_82', N'08737372828', NULL, NULL)
+GO
+INSERT [dbo].[People] ([PersonID], [NationalNo], [FirstName], [SecondName], [ThirdName], [LastName], [Gender], [NationalityCountryID], [DateOfBirth], [Address], [Phone], [Email], [ImagePath]) VALUES (63, N'n1234', N'1', N'2', N'3', N'4', 1, 169, CAST(N'2007-05-01T23:27:14.047' AS DateTime), N'b1271', N'82732328832', NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[People] OFF
+GO
+SET IDENTITY_INSERT [dbo].[TestAppointments] ON 
+GO
+INSERT [dbo].[TestAppointments] ([TestAppointmentID], [AppointmentDate], [LocalDrivingLicenseApplicationID], [TestTypeID], [PaidFees], [IsLocked], [RetakeTestApplicationID], [CreatedByUserID]) VALUES (47, CAST(N'2025-05-03T00:03:00' AS SmallDateTime), 43, 1, 10.0000, 1, NULL, 1)
+GO
+INSERT [dbo].[TestAppointments] ([TestAppointmentID], [AppointmentDate], [LocalDrivingLicenseApplicationID], [TestTypeID], [PaidFees], [IsLocked], [RetakeTestApplicationID], [CreatedByUserID]) VALUES (48, CAST(N'2025-05-04T00:03:00' AS SmallDateTime), 43, 2, 20.0000, 1, NULL, 1)
+GO
+INSERT [dbo].[TestAppointments] ([TestAppointmentID], [AppointmentDate], [LocalDrivingLicenseApplicationID], [TestTypeID], [PaidFees], [IsLocked], [RetakeTestApplicationID], [CreatedByUserID]) VALUES (49, CAST(N'2025-05-06T00:04:00' AS SmallDateTime), 43, 3, 30.0000, 1, NULL, 1)
+GO
+INSERT [dbo].[TestAppointments] ([TestAppointmentID], [AppointmentDate], [LocalDrivingLicenseApplicationID], [TestTypeID], [PaidFees], [IsLocked], [RetakeTestApplicationID], [CreatedByUserID]) VALUES (50, CAST(N'2025-05-05T00:05:00' AS SmallDateTime), 44, 1, 10.0000, 1, NULL, 1)
+GO
+INSERT [dbo].[TestAppointments] ([TestAppointmentID], [AppointmentDate], [LocalDrivingLicenseApplicationID], [TestTypeID], [PaidFees], [IsLocked], [RetakeTestApplicationID], [CreatedByUserID]) VALUES (51, CAST(N'2025-05-07T00:06:00' AS SmallDateTime), 44, 2, 20.0000, 1, NULL, 1)
+GO
+INSERT [dbo].[TestAppointments] ([TestAppointmentID], [AppointmentDate], [LocalDrivingLicenseApplicationID], [TestTypeID], [PaidFees], [IsLocked], [RetakeTestApplicationID], [CreatedByUserID]) VALUES (52, CAST(N'2025-05-09T00:06:00' AS SmallDateTime), 44, 3, 30.0000, 1, NULL, 1)
+GO
+INSERT [dbo].[TestAppointments] ([TestAppointmentID], [AppointmentDate], [LocalDrivingLicenseApplicationID], [TestTypeID], [PaidFees], [IsLocked], [RetakeTestApplicationID], [CreatedByUserID]) VALUES (53, CAST(N'2025-06-19T08:14:00' AS SmallDateTime), 45, 1, 10.0000, 1, NULL, 1)
+GO
+INSERT [dbo].[TestAppointments] ([TestAppointmentID], [AppointmentDate], [LocalDrivingLicenseApplicationID], [TestTypeID], [PaidFees], [IsLocked], [RetakeTestApplicationID], [CreatedByUserID]) VALUES (54, CAST(N'2025-06-19T08:14:00' AS SmallDateTime), 45, 2, 20.0000, 1, NULL, 1)
+GO
+INSERT [dbo].[TestAppointments] ([TestAppointmentID], [AppointmentDate], [LocalDrivingLicenseApplicationID], [TestTypeID], [PaidFees], [IsLocked], [RetakeTestApplicationID], [CreatedByUserID]) VALUES (55, CAST(N'2025-06-19T08:15:00' AS SmallDateTime), 45, 3, 30.0000, 1, NULL, 1)
+GO
+INSERT [dbo].[TestAppointments] ([TestAppointmentID], [AppointmentDate], [LocalDrivingLicenseApplicationID], [TestTypeID], [PaidFees], [IsLocked], [RetakeTestApplicationID], [CreatedByUserID]) VALUES (56, CAST(N'2025-06-19T08:21:00' AS SmallDateTime), 46, 1, 10.0000, 1, NULL, 1)
+GO
+INSERT [dbo].[TestAppointments] ([TestAppointmentID], [AppointmentDate], [LocalDrivingLicenseApplicationID], [TestTypeID], [PaidFees], [IsLocked], [RetakeTestApplicationID], [CreatedByUserID]) VALUES (57, CAST(N'2025-06-19T08:22:00' AS SmallDateTime), 46, 2, 20.0000, 1, NULL, 1)
+GO
+INSERT [dbo].[TestAppointments] ([TestAppointmentID], [AppointmentDate], [LocalDrivingLicenseApplicationID], [TestTypeID], [PaidFees], [IsLocked], [RetakeTestApplicationID], [CreatedByUserID]) VALUES (58, CAST(N'2025-06-19T08:22:00' AS SmallDateTime), 46, 3, 30.0000, 1, NULL, 1)
+GO
+INSERT [dbo].[TestAppointments] ([TestAppointmentID], [AppointmentDate], [LocalDrivingLicenseApplicationID], [TestTypeID], [PaidFees], [IsLocked], [RetakeTestApplicationID], [CreatedByUserID]) VALUES (59, CAST(N'2025-06-24T12:32:00' AS SmallDateTime), 47, 1, 10.0000, 1, NULL, 1)
+GO
+INSERT [dbo].[TestAppointments] ([TestAppointmentID], [AppointmentDate], [LocalDrivingLicenseApplicationID], [TestTypeID], [PaidFees], [IsLocked], [RetakeTestApplicationID], [CreatedByUserID]) VALUES (60, CAST(N'2025-06-25T12:32:00' AS SmallDateTime), 47, 2, 20.0000, 1, NULL, 1)
+GO
+INSERT [dbo].[TestAppointments] ([TestAppointmentID], [AppointmentDate], [LocalDrivingLicenseApplicationID], [TestTypeID], [PaidFees], [IsLocked], [RetakeTestApplicationID], [CreatedByUserID]) VALUES (61, CAST(N'2025-06-28T12:33:00' AS SmallDateTime), 47, 3, 30.0000, 1, NULL, 1)
+GO
+SET IDENTITY_INSERT [dbo].[TestAppointments] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Tests] ON 
+GO
+INSERT [dbo].[Tests] ([TestID], [TestAppointmentID], [TestResult], [Notes], [CreatedByUserID]) VALUES (1, 47, 1, N'With Glasses', 1)
+GO
+INSERT [dbo].[Tests] ([TestID], [TestAppointmentID], [TestResult], [Notes], [CreatedByUserID]) VALUES (2, 48, 1, NULL, 1)
+GO
+INSERT [dbo].[Tests] ([TestID], [TestAppointmentID], [TestResult], [Notes], [CreatedByUserID]) VALUES (3, 49, 1, NULL, 1)
+GO
+INSERT [dbo].[Tests] ([TestID], [TestAppointmentID], [TestResult], [Notes], [CreatedByUserID]) VALUES (4, 50, 1, NULL, 1)
+GO
+INSERT [dbo].[Tests] ([TestID], [TestAppointmentID], [TestResult], [Notes], [CreatedByUserID]) VALUES (5, 51, 1, NULL, 1)
+GO
+INSERT [dbo].[Tests] ([TestID], [TestAppointmentID], [TestResult], [Notes], [CreatedByUserID]) VALUES (6, 52, 1, NULL, 1)
+GO
+INSERT [dbo].[Tests] ([TestID], [TestAppointmentID], [TestResult], [Notes], [CreatedByUserID]) VALUES (7, 53, 1, NULL, 1)
+GO
+INSERT [dbo].[Tests] ([TestID], [TestAppointmentID], [TestResult], [Notes], [CreatedByUserID]) VALUES (8, 54, 1, NULL, 1)
+GO
+INSERT [dbo].[Tests] ([TestID], [TestAppointmentID], [TestResult], [Notes], [CreatedByUserID]) VALUES (9, 55, 1, NULL, 1)
+GO
+INSERT [dbo].[Tests] ([TestID], [TestAppointmentID], [TestResult], [Notes], [CreatedByUserID]) VALUES (10, 56, 1, NULL, 1)
+GO
+INSERT [dbo].[Tests] ([TestID], [TestAppointmentID], [TestResult], [Notes], [CreatedByUserID]) VALUES (11, 57, 1, NULL, 1)
+GO
+INSERT [dbo].[Tests] ([TestID], [TestAppointmentID], [TestResult], [Notes], [CreatedByUserID]) VALUES (12, 58, 1, NULL, 1)
+GO
+INSERT [dbo].[Tests] ([TestID], [TestAppointmentID], [TestResult], [Notes], [CreatedByUserID]) VALUES (13, 59, 1, NULL, 1)
+GO
+INSERT [dbo].[Tests] ([TestID], [TestAppointmentID], [TestResult], [Notes], [CreatedByUserID]) VALUES (14, 60, 1, NULL, 1)
+GO
+INSERT [dbo].[Tests] ([TestID], [TestAppointmentID], [TestResult], [Notes], [CreatedByUserID]) VALUES (15, 61, 1, NULL, 1)
+GO
+SET IDENTITY_INSERT [dbo].[Tests] OFF
+GO
+SET IDENTITY_INSERT [dbo].[TestTypes] ON 
+GO
+INSERT [dbo].[TestTypes] ([TestTypeID], [TestTypeTitle], [TestTypeDescription], [TestTypeFees]) VALUES (1, N'Vision Test', N'This assesses the applicant''s visual acuity to ensure they have sufficient vision to drive safely.', 10.0000)
+GO
+INSERT [dbo].[TestTypes] ([TestTypeID], [TestTypeTitle], [TestTypeDescription], [TestTypeFees]) VALUES (2, N'Written (Theory) Test', N'This test assesses the applicant''s knowledge of traffic rules, road signs, and driving regulations. It typically consists of multiple-choice questions, and the applicant must select the correct answer(s). The written test aims to ensure that the applicant understands the rules of the road and can apply them in various driving scenarios.', 20.0000)
+GO
+INSERT [dbo].[TestTypes] ([TestTypeID], [TestTypeTitle], [TestTypeDescription], [TestTypeFees]) VALUES (3, N'Practical (Street) Test', N'This test evaluates the applicant''s driving skills and ability to operate a motor vehicle safely on public roads. A licensed examiner accompanies the applicant in the vehicle and observes their driving performance.', 30.0000)
+GO
+SET IDENTITY_INSERT [dbo].[TestTypes] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Users] ON 
+GO
+INSERT [dbo].[Users] ([UserID], [PersonID], [UserName], [PassWord], [IsActive]) VALUES (1, 1, N'Admin', N'03AC674216F3E15C761EE1A5E255F067953623C8B388B4459E13F978D7C846F4', 1)
+GO
+INSERT [dbo].[Users] ([UserID], [PersonID], [UserName], [PassWord], [IsActive]) VALUES (5, 3, N'user3', N'03AC674216F3E15C761EE1A5E255F067953623C8B388B4459E13F978D7C846F4', 1)
+GO
+INSERT [dbo].[Users] ([UserID], [PersonID], [UserName], [PassWord], [IsActive]) VALUES (6, 47, N'User1', N'03AC674216F3E15C761EE1A5E255F067953623C8B388B4459E13F978D7C846F4', 1)
+GO
+INSERT [dbo].[Users] ([UserID], [PersonID], [UserName], [PassWord], [IsActive]) VALUES (7, 56, N'User2', N'03AC674216F3E15C761EE1A5E255F067953623C8B388B4459E13F978D7C846F4', 0)
+GO
+INSERT [dbo].[Users] ([UserID], [PersonID], [UserName], [PassWord], [IsActive]) VALUES (8, 58, N'User6', N'03AC674216F3E15C761EE1A5E255F067953623C8B388B4459E13F978D7C846F4', 1)
+GO
+SET IDENTITY_INSERT [dbo].[Users] OFF
+GO
+ALTER TABLE [dbo].[Applications]  WITH CHECK ADD  CONSTRAINT [FK__Applicati__Appli__412EB0B6] FOREIGN KEY([ApplicantPersonID])
+REFERENCES [dbo].[People] ([PersonID])
+GO
+ALTER TABLE [dbo].[Applications] CHECK CONSTRAINT [FK__Applicati__Appli__412EB0B6]
+GO
+ALTER TABLE [dbo].[Applications]  WITH CHECK ADD  CONSTRAINT [FK__Applicati__Appli__4222D4EF] FOREIGN KEY([ApplicationTypeID])
+REFERENCES [dbo].[ApplicationTypes] ([ApplicationTypeID])
+GO
+ALTER TABLE [dbo].[Applications] CHECK CONSTRAINT [FK__Applicati__Appli__4222D4EF]
+GO
+ALTER TABLE [dbo].[Applications]  WITH CHECK ADD  CONSTRAINT [FK__Applicati__Creat__4316F928] FOREIGN KEY([CreatedByUserID])
+REFERENCES [dbo].[Users] ([UserID])
+GO
+ALTER TABLE [dbo].[Applications] CHECK CONSTRAINT [FK__Applicati__Creat__4316F928]
+GO
+ALTER TABLE [dbo].[DetainedDrivingLicenses]  WITH CHECK ADD  CONSTRAINT [FK__DetainedD__Creat__66603565] FOREIGN KEY([CreatedByUserID])
+REFERENCES [dbo].[Users] ([UserID])
+GO
+ALTER TABLE [dbo].[DetainedDrivingLicenses] CHECK CONSTRAINT [FK__DetainedD__Creat__66603565]
+GO
+ALTER TABLE [dbo].[DetainedDrivingLicenses]  WITH CHECK ADD  CONSTRAINT [FK__DetainedD__Drivi__656C112C] FOREIGN KEY([DrivingLicenseID])
+REFERENCES [dbo].[DrivingLicenses] ([DrivingLicenseID])
+GO
+ALTER TABLE [dbo].[DetainedDrivingLicenses] CHECK CONSTRAINT [FK__DetainedD__Drivi__656C112C]
+GO
+ALTER TABLE [dbo].[DetainedDrivingLicenses]  WITH CHECK ADD  CONSTRAINT [FK__DetainedD__Relea__6754599E] FOREIGN KEY([ReleasedByUserID])
+REFERENCES [dbo].[Users] ([UserID])
+GO
+ALTER TABLE [dbo].[DetainedDrivingLicenses] CHECK CONSTRAINT [FK__DetainedD__Relea__6754599E]
+GO
+ALTER TABLE [dbo].[DetainedDrivingLicenses]  WITH CHECK ADD  CONSTRAINT [FK__DetainedD__Relea__68487DD7] FOREIGN KEY([ReleaseApplicationID])
+REFERENCES [dbo].[Applications] ([ApplicationID])
+GO
+ALTER TABLE [dbo].[DetainedDrivingLicenses] CHECK CONSTRAINT [FK__DetainedD__Relea__68487DD7]
+GO
+ALTER TABLE [dbo].[Drivers]  WITH CHECK ADD  CONSTRAINT [FK__Drivers__Created__571DF1D5] FOREIGN KEY([CreatedByUserID])
+REFERENCES [dbo].[Users] ([UserID])
+GO
+ALTER TABLE [dbo].[Drivers] CHECK CONSTRAINT [FK__Drivers__Created__571DF1D5]
+GO
+ALTER TABLE [dbo].[Drivers]  WITH CHECK ADD  CONSTRAINT [FK__Drivers__PersonI__5629CD9C] FOREIGN KEY([PersonID])
+REFERENCES [dbo].[People] ([PersonID])
+GO
+ALTER TABLE [dbo].[Drivers] CHECK CONSTRAINT [FK__Drivers__PersonI__5629CD9C]
+GO
+ALTER TABLE [dbo].[DrivingLicenses]  WITH CHECK ADD  CONSTRAINT [FK__DrivingLi__Appli__59FA5E80] FOREIGN KEY([ApplicationID])
+REFERENCES [dbo].[Applications] ([ApplicationID])
+GO
+ALTER TABLE [dbo].[DrivingLicenses] CHECK CONSTRAINT [FK__DrivingLi__Appli__59FA5E80]
+GO
+ALTER TABLE [dbo].[DrivingLicenses]  WITH CHECK ADD  CONSTRAINT [FK__DrivingLi__Creat__5CD6CB2B] FOREIGN KEY([CreatedByUserID])
+REFERENCES [dbo].[Users] ([UserID])
+GO
+ALTER TABLE [dbo].[DrivingLicenses] CHECK CONSTRAINT [FK__DrivingLi__Creat__5CD6CB2B]
+GO
+ALTER TABLE [dbo].[DrivingLicenses]  WITH CHECK ADD  CONSTRAINT [FK__DrivingLi__Drive__5AEE82B9] FOREIGN KEY([DriverID])
+REFERENCES [dbo].[Drivers] ([DriverID])
+GO
+ALTER TABLE [dbo].[DrivingLicenses] CHECK CONSTRAINT [FK__DrivingLi__Drive__5AEE82B9]
+GO
+ALTER TABLE [dbo].[DrivingLicenses]  WITH CHECK ADD  CONSTRAINT [FK__DrivingLi__Licen__5BE2A6F2] FOREIGN KEY([LicenseClassID])
+REFERENCES [dbo].[LicenseClasses] ([LicenseClassID])
+GO
+ALTER TABLE [dbo].[DrivingLicenses] CHECK CONSTRAINT [FK__DrivingLi__Licen__5BE2A6F2]
+GO
+ALTER TABLE [dbo].[InternationalDrivingLicenses]  WITH CHECK ADD  CONSTRAINT [FK__Internati__Appli__5FB337D6] FOREIGN KEY([ApplicationID])
+REFERENCES [dbo].[Applications] ([ApplicationID])
+GO
+ALTER TABLE [dbo].[InternationalDrivingLicenses] CHECK CONSTRAINT [FK__Internati__Appli__5FB337D6]
+GO
+ALTER TABLE [dbo].[InternationalDrivingLicenses]  WITH CHECK ADD  CONSTRAINT [FK__Internati__Creat__628FA481] FOREIGN KEY([CreatedByUserID])
+REFERENCES [dbo].[Users] ([UserID])
+GO
+ALTER TABLE [dbo].[InternationalDrivingLicenses] CHECK CONSTRAINT [FK__Internati__Creat__628FA481]
+GO
+ALTER TABLE [dbo].[InternationalDrivingLicenses]  WITH CHECK ADD  CONSTRAINT [FK__Internati__Drive__60A75C0F] FOREIGN KEY([DriverID])
+REFERENCES [dbo].[Drivers] ([DriverID])
+GO
+ALTER TABLE [dbo].[InternationalDrivingLicenses] CHECK CONSTRAINT [FK__Internati__Drive__60A75C0F]
+GO
+ALTER TABLE [dbo].[InternationalDrivingLicenses]  WITH CHECK ADD  CONSTRAINT [FK__Internati__Issue__619B8048] FOREIGN KEY([IssuedUsingDrivingLicenseID])
+REFERENCES [dbo].[DrivingLicenses] ([DrivingLicenseID])
+GO
+ALTER TABLE [dbo].[InternationalDrivingLicenses] CHECK CONSTRAINT [FK__Internati__Issue__619B8048]
+GO
+ALTER TABLE [dbo].[LocalDrivingLicenseApplications]  WITH CHECK ADD  CONSTRAINT [FK__LocalDriv__Appli__49C3F6B7] FOREIGN KEY([ApplicationID])
+REFERENCES [dbo].[Applications] ([ApplicationID])
+GO
+ALTER TABLE [dbo].[LocalDrivingLicenseApplications] CHECK CONSTRAINT [FK__LocalDriv__Appli__49C3F6B7]
+GO
+ALTER TABLE [dbo].[LocalDrivingLicenseApplications]  WITH CHECK ADD  CONSTRAINT [FK__LocalDriv__Licen__4AB81AF0] FOREIGN KEY([LicenseClassID])
+REFERENCES [dbo].[LicenseClasses] ([LicenseClassID])
+GO
+ALTER TABLE [dbo].[LocalDrivingLicenseApplications] CHECK CONSTRAINT [FK__LocalDriv__Licen__4AB81AF0]
+GO
+ALTER TABLE [dbo].[People]  WITH CHECK ADD  CONSTRAINT [FK__People__National__398D8EEE] FOREIGN KEY([NationalityCountryID])
+REFERENCES [dbo].[Countries] ([CountryID])
+GO
+ALTER TABLE [dbo].[People] CHECK CONSTRAINT [FK__People__National__398D8EEE]
+GO
+ALTER TABLE [dbo].[TestAppointments]  WITH CHECK ADD  CONSTRAINT [FK__TestAppoi__Creat__4F7CD00D] FOREIGN KEY([CreatedByUserID])
+REFERENCES [dbo].[Users] ([UserID])
+GO
+ALTER TABLE [dbo].[TestAppointments] CHECK CONSTRAINT [FK__TestAppoi__Creat__4F7CD00D]
+GO
+ALTER TABLE [dbo].[TestAppointments]  WITH CHECK ADD  CONSTRAINT [FK__TestAppoi__Local__4D94879B] FOREIGN KEY([LocalDrivingLicenseApplicationID])
+REFERENCES [dbo].[LocalDrivingLicenseApplications] ([LocalDrivingLicenseApplicationID])
+GO
+ALTER TABLE [dbo].[TestAppointments] CHECK CONSTRAINT [FK__TestAppoi__Local__4D94879B]
+GO
+ALTER TABLE [dbo].[TestAppointments]  WITH CHECK ADD  CONSTRAINT [FK__TestAppoi__TestT__4E88ABD4] FOREIGN KEY([TestTypeID])
+REFERENCES [dbo].[TestTypes] ([TestTypeID])
+GO
+ALTER TABLE [dbo].[TestAppointments] CHECK CONSTRAINT [FK__TestAppoi__TestT__4E88ABD4]
+GO
+ALTER TABLE [dbo].[Tests]  WITH CHECK ADD  CONSTRAINT [FK__Tests__CreatedBy__534D60F1] FOREIGN KEY([CreatedByUserID])
+REFERENCES [dbo].[Users] ([UserID])
+GO
+ALTER TABLE [dbo].[Tests] CHECK CONSTRAINT [FK__Tests__CreatedBy__534D60F1]
+GO
+ALTER TABLE [dbo].[Tests]  WITH CHECK ADD  CONSTRAINT [FK__Tests__TestAppoi__52593CB8] FOREIGN KEY([TestAppointmentID])
+REFERENCES [dbo].[TestAppointments] ([TestAppointmentID])
+GO
+ALTER TABLE [dbo].[Tests] CHECK CONSTRAINT [FK__Tests__TestAppoi__52593CB8]
+GO
+ALTER TABLE [dbo].[Users]  WITH CHECK ADD  CONSTRAINT [FK__Users__PersonID__3C69FB99] FOREIGN KEY([PersonID])
+REFERENCES [dbo].[People] ([PersonID])
+GO
+ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [FK__Users__PersonID__3C69FB99]
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'1-New 2-Cancelled 3-Completed' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Applications', @level2type=N'COLUMN',@level2name=N'ApplicationStatus'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'1-FirstTime 2-Renew 3-Replacement For a Lost 4-Replacement For a Damaged.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'DrivingLicenses', @level2type=N'COLUMN',@level2name=N'IssueReason'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'1-Male 2-Female' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'People', @level2type=N'COLUMN',@level2name=N'Gender'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane1', @value=N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
+Begin DesignProperties = 
+   Begin PaneConfigurations = 
+      Begin PaneConfiguration = 0
+         NumPanes = 4
+         Configuration = "(H (1[40] 4[20] 2[20] 3) )"
+      End
+      Begin PaneConfiguration = 1
+         NumPanes = 3
+         Configuration = "(H (1 [50] 4 [25] 3))"
+      End
+      Begin PaneConfiguration = 2
+         NumPanes = 3
+         Configuration = "(H (1 [50] 2 [25] 3))"
+      End
+      Begin PaneConfiguration = 3
+         NumPanes = 3
+         Configuration = "(H (4 [30] 2 [40] 3))"
+      End
+      Begin PaneConfiguration = 4
+         NumPanes = 2
+         Configuration = "(H (1 [56] 3))"
+      End
+      Begin PaneConfiguration = 5
+         NumPanes = 2
+         Configuration = "(H (2 [66] 3))"
+      End
+      Begin PaneConfiguration = 6
+         NumPanes = 2
+         Configuration = "(H (4 [50] 3))"
+      End
+      Begin PaneConfiguration = 7
+         NumPanes = 1
+         Configuration = "(V (3))"
+      End
+      Begin PaneConfiguration = 8
+         NumPanes = 3
+         Configuration = "(H (1[56] 4[18] 2) )"
+      End
+      Begin PaneConfiguration = 9
+         NumPanes = 2
+         Configuration = "(H (1 [75] 4))"
+      End
+      Begin PaneConfiguration = 10
+         NumPanes = 2
+         Configuration = "(H (1[66] 2) )"
+      End
+      Begin PaneConfiguration = 11
+         NumPanes = 2
+         Configuration = "(H (4 [60] 2))"
+      End
+      Begin PaneConfiguration = 12
+         NumPanes = 1
+         Configuration = "(H (1) )"
+      End
+      Begin PaneConfiguration = 13
+         NumPanes = 1
+         Configuration = "(V (4))"
+      End
+      Begin PaneConfiguration = 14
+         NumPanes = 1
+         Configuration = "(V (2))"
+      End
+      ActivePaneConfig = 0
+   End
+   Begin DiagramPane = 
+      Begin Origin = 
+         Top = 0
+         Left = 0
+      End
+      Begin Tables = 
+         Begin Table = "DrivingLicenses"
+            Begin Extent = 
+               Top = 7
+               Left = 48
+               Bottom = 170
+               Right = 271
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Drivers"
+            Begin Extent = 
+               Top = 7
+               Left = 319
+               Bottom = 170
+               Right = 542
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "People"
+            Begin Extent = 
+               Top = 7
+               Left = 590
+               Bottom = 170
+               Right = 840
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+      End
+   End
+   Begin SQLPane = 
+   End
+   Begin DataPane = 
+      Begin ParameterDefaults = ""
+      End
+   End
+   Begin CriteriaPane = 
+      Begin ColumnWidths = 12
+         Column = 1440
+         Alias = 900
+         Table = 1176
+         Output = 720
+         Append = 1400
+         NewValue = 1170
+         SortType = 1356
+         SortOrder = 1416
+         GroupBy = 1350
+         Filter = 1356
+         Or = 1350
+         Or = 1350
+         Or = 1350
+      End
+   End
+End
+' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'Drivers_View'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=1 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'Drivers_View'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane1', @value=N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
+Begin DesignProperties = 
+   Begin PaneConfigurations = 
+      Begin PaneConfiguration = 0
+         NumPanes = 4
+         Configuration = "(H (1[40] 4[20] 2[20] 3) )"
+      End
+      Begin PaneConfiguration = 1
+         NumPanes = 3
+         Configuration = "(H (1 [50] 4 [25] 3))"
+      End
+      Begin PaneConfiguration = 2
+         NumPanes = 3
+         Configuration = "(H (1 [50] 2 [25] 3))"
+      End
+      Begin PaneConfiguration = 3
+         NumPanes = 3
+         Configuration = "(H (4 [30] 2 [40] 3))"
+      End
+      Begin PaneConfiguration = 4
+         NumPanes = 2
+         Configuration = "(H (1 [56] 3))"
+      End
+      Begin PaneConfiguration = 5
+         NumPanes = 2
+         Configuration = "(H (2 [66] 3))"
+      End
+      Begin PaneConfiguration = 6
+         NumPanes = 2
+         Configuration = "(H (4 [50] 3))"
+      End
+      Begin PaneConfiguration = 7
+         NumPanes = 1
+         Configuration = "(V (3))"
+      End
+      Begin PaneConfiguration = 8
+         NumPanes = 3
+         Configuration = "(H (1[56] 4[18] 2) )"
+      End
+      Begin PaneConfiguration = 9
+         NumPanes = 2
+         Configuration = "(H (1 [75] 4))"
+      End
+      Begin PaneConfiguration = 10
+         NumPanes = 2
+         Configuration = "(H (1[66] 2) )"
+      End
+      Begin PaneConfiguration = 11
+         NumPanes = 2
+         Configuration = "(H (4 [60] 2))"
+      End
+      Begin PaneConfiguration = 12
+         NumPanes = 1
+         Configuration = "(H (1) )"
+      End
+      Begin PaneConfiguration = 13
+         NumPanes = 1
+         Configuration = "(V (4))"
+      End
+      Begin PaneConfiguration = 14
+         NumPanes = 1
+         Configuration = "(V (2))"
+      End
+      ActivePaneConfig = 0
+   End
+   Begin DiagramPane = 
+      Begin Origin = 
+         Top = 0
+         Left = 0
+      End
+      Begin Tables = 
+         Begin Table = "LocalDrivingLicenseApplications"
+            Begin Extent = 
+               Top = 7
+               Left = 48
+               Bottom = 148
+               Right = 366
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "LicenseClasses"
+            Begin Extent = 
+               Top = 7
+               Left = 414
+               Bottom = 170
+               Right = 654
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Applications"
+            Begin Extent = 
+               Top = 7
+               Left = 702
+               Bottom = 170
+               Right = 921
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "People"
+            Begin Extent = 
+               Top = 7
+               Left = 969
+               Bottom = 112
+               Right = 1203
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+      End
+   End
+   Begin SQLPane = 
+   End
+   Begin DataPane = 
+      Begin ParameterDefaults = ""
+      End
+   End
+   Begin CriteriaPane = 
+      Begin ColumnWidths = 11
+         Column = 1440
+         Alias = 900
+         Table = 1176
+         Output = 720
+         Append = 1400
+         NewValue = 1170
+         SortType = 1356
+         SortOrder = 1416
+         GroupBy = 1350
+         Filter = 1356
+         Or = 1350
+         Or = 1350
+         Or = 1350
+      End
+   End
+End
+' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'LocalDrivingLicenseApplications_View'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=1 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'LocalDrivingLicenseApplications_View'
+GO
+USE [master]
+GO
+ALTER DATABASE [DVLD_DataBase] SET  READ_WRITE 
+GO

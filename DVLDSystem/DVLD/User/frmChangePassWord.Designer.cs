@@ -214,6 +214,7 @@
             this.Name = "frmChangePassWord";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Change PassWord";
+            this.Activated += new System.EventHandler(this.frmChangePassWord_Activated);
             this.Load += new System.EventHandler(this.frmChangePassWord_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

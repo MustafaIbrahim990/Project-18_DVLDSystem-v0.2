@@ -16,15 +16,33 @@ namespace DVLDSystem.DVLD.Login
     public partial class frmLogin : Form
     {
         //Private Properties :-
+        private string UserName = "";
+        private string PassWord = "";
+
         private clsUser _UserInfo;
 
 
         //Private Methods :-
+        private bool _CheckLocalRegistryData()
+        {
+            //string UserName = "", PassWord = "";
+
+            //if (clsGlobal.GetUserNameANDPassWord(ref UserName, ref PassWord))
+            //{
+            //    this.UserName = UserName;
+            //    this.PassWord = PassWord;
+
+            //    return true;
+            //}
+            //return false;
+            return clsGlobal.GetUserNameANDPassWord(ref this.UserName, ref this.PassWord);
+        }
         private bool _RememberUserNameANDPassWord()
         {
             if (chbRememberMe.Checked)
             {
-                return clsGlobal.SaveUserNameANDPassWord(txtUserName.Text.Trim(), txtPassWord.Text.Trim());
+                //Save UserName and HashedPassword in Local Registry :-
+                return clsGlobal.SaveUserNameANDPassWord(txtUserName.Text.Trim(), _UserInfo.PassWord);
             }
             else
             {
@@ -33,11 +51,14 @@ namespace DVLDSystem.DVLD.Login
         }
         private bool _GetUserInfo()
         {
-            _UserInfo = clsUser.Find(txtUserName.Text.Trim(), clsGlobal.GenerateHash(txtPassWord.Text.Trim()));
+            //string Salt = "";
+            //string PassWord = clsGlobal.GenerateHash("1234", ref Salt);
+            _UserInfo = clsUser.Find(txtUserName.Text.Trim(), clsGlobal.GenerateHash(txtPassWord.Text.Trim() + clsUser.Find(txtUserName.Text.Trim()).Salt));
 
             if (_UserInfo == null)
             {
                 MessageBox.Show("Invalid UserName Or PassWord!", "Wrong Credentials", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtPassWord.Focus();
                 return false;
             }
             return true;
@@ -51,16 +72,22 @@ namespace DVLDSystem.DVLD.Login
         }
         private void frmLogin_Load(object sender, EventArgs e)
         {
-            string UserName = "", PassWord = "";
-
-            if (clsGlobal.GetUserNameANDPassWord(ref UserName, ref PassWord))
+            
+        }
+        private void frmLogin_Shown(object sender, EventArgs e)
+        {
+            if (_CheckLocalRegistryData())
             {
+                txtUserName.Text = this.UserName;
+                txtPassWord.Focus();
+
                 chbRememberMe.Checked = true;
-                txtUserName.Text = UserName;
-                txtPassWord.Text = PassWord;
+                return;
             }
-            else
-                chbRememberMe.Checked = false;
+            txtUserName.Text = "";
+            txtPassWord.Text = "";
+
+            chbRememberMe.Checked = false;
         }
 
 
@@ -123,7 +150,7 @@ namespace DVLDSystem.DVLD.Login
             if (!_UserInfo.IsActive)
             {
                 txtUserName.Focus();
-                MessageBox.Show("Invalid Your Account is Not Active, Contact With Admin!", "In Active Account", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Invalid Your Account is Not Active, Contact With Admin!", "Inactive Account", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

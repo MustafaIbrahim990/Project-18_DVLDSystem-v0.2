@@ -148,9 +148,9 @@
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(206, 625);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(159, 36);
+            this.label5.Size = new System.Drawing.Size(161, 36);
             this.label5.TabIndex = 5;
-            this.label5.Text = "Version 1.0";
+            this.label5.Text = "Version 2.0";
             // 
             // label4
             // 
@@ -286,6 +286,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmLogin";
             this.Load += new System.EventHandler(this.frmLogin_Load);
+            this.Shown += new System.EventHandler(this.frmLogin_Shown);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

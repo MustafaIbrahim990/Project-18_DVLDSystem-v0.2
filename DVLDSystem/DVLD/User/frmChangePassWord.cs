@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DVLDSystem_BusinessLayer;
 using DVLDSystem.Gobal_Classes;
+using DVLDSystem.DVLD.Global_User;
 
 namespace DVLDSystem.DVLD.User
 {
     public partial class frmChangePassWord : Form
     {
-
-        //Properties :-
+        //Private Properties :-
         private int _UserID = -1;
         private clsUser _UserInfo;
 
@@ -26,9 +26,7 @@ namespace DVLDSystem.DVLD.User
             txtCurrentPassWord.Text = "";
             txtNewPassWord.Text = "";
             txtConfirmPassWord.Text = "";
-            txtCurrentPassWord.Focus();
         }
-
         private void _LoadUserInfo()
         {
             _UserInfo = clsUser.Find(_UserID);
@@ -40,6 +38,23 @@ namespace DVLDSystem.DVLD.User
                 return;
             }
             ctrlUserInfo1.LoadUserInfo(_UserID);
+        }
+        private bool _SaveUserNameANDPassWordInLocalRegistry()
+        {
+            return clsGlobal.SaveUserNameANDPassWord(_UserInfo.UserName, _UserInfo.PassWord);
+        }
+        private bool _GetUserInfo()
+        {
+            string Salt = "";
+
+            _UserInfo.PassWord = clsGlobal.GenerateHash(txtNewPassWord.Text.Trim(), ref Salt);
+            _UserInfo.Salt = Salt;
+
+            if (clsGlobal.CurrentUser.UserName == _UserInfo.UserName)
+            {
+                return _SaveUserNameANDPassWordInLocalRegistry();
+            }
+            return true;
         }
 
 
@@ -55,6 +70,10 @@ namespace DVLDSystem.DVLD.User
             _ResetDefualtValues();
             _LoadUserInfo();
         }
+        private void frmChangePassWord_Activated(object sender, EventArgs e)
+        {
+            txtCurrentPassWord.Focus();
+        }
 
 
         //Current PassWord :-
@@ -67,7 +86,7 @@ namespace DVLDSystem.DVLD.User
                 return;
             }
 
-            if (ctrlUserInfo1.SelectedUserInfo.PassWord != txtCurrentPassWord.Text)
+            if (ctrlUserInfo1.SelectedUserInfo.PassWord != clsGlobal.GenerateHash(txtCurrentPassWord.Text + ctrlUserInfo1.SelectedUserInfo.Salt)) 
             {
                 e.Cancel = true;
                 errorProvider1.SetError(txtCurrentPassWord, "Current PassWord is Wrong!");
@@ -127,7 +146,8 @@ namespace DVLDSystem.DVLD.User
                 return;
             }
 
-            _UserInfo.PassWord = txtNewPassWord.Text.Trim();
+            if (!_GetUserInfo())
+                return;
 
             if (_UserInfo.Save())
             {

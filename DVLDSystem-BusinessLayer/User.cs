@@ -16,6 +16,7 @@ namespace DVLDSystem_BusinessLayer
         public int PersonID { get; set; }
         public string UserName { get; set; }
         public string PassWord { get; set; }
+        public string Salt { get; set; }
         public bool IsActive { get; set; }
 
         public clsPerson PersonInfo;
@@ -29,16 +30,18 @@ namespace DVLDSystem_BusinessLayer
             PersonID = -1;
             UserName = "";
             PassWord = "";
+            Salt = "";
             IsActive = true;
             PersonInfo = null;
         }
-        private clsUser(int UserID, int PersonID, string UserName, string PassWord, bool IsActive)
+        private clsUser(int UserID, int PersonID, string UserName, string PassWord, string Salt, bool IsActive)
         {
             _Mode = enMode.Update;
             this.UserID = UserID;
             this.PersonID = PersonID;
             this.UserName = UserName;
             this.PassWord = PassWord;
+            this.Salt = Salt;
             this.IsActive = IsActive;
             this.PersonInfo = clsPerson.Find(PersonID);
         }
@@ -83,13 +86,32 @@ namespace DVLDSystem_BusinessLayer
         public static clsUser Find(int UserID)
         {
             int PersonID = -1;
-            string UserName = "", PassWord = "";
+            string UserName = "", PassWord = "", Salt = "";
             bool IsActive = false;
 
 
-            if (clsUserData.GetInfo(UserID, ref PersonID, ref UserName, ref PassWord, ref IsActive))
+            if (clsUserData.GetInfo(UserID, ref PersonID, ref UserName, ref PassWord, ref Salt, ref IsActive)) 
             {
-                return new clsUser(UserID, PersonID, UserName, PassWord, IsActive);
+                return new clsUser(UserID, PersonID, UserName, PassWord, Salt, IsActive);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        //Get User Info By UserName :-
+        public static clsUser Find(string UserName)
+        {
+            int UserID = -1, PersonID = -1;
+            string PassWord = "", Salt = "";
+            bool IsActive = false;
+
+
+            if (clsUserData.GetInfo(UserName, ref UserID, ref PersonID, ref PassWord, ref Salt, ref IsActive)) 
+            {
+                return new clsUser(UserID, PersonID, UserName, PassWord, Salt, IsActive);
             }
             else
             {
@@ -102,13 +124,13 @@ namespace DVLDSystem_BusinessLayer
         public static clsUser FindByPersonID(int PersonID)
         {
             int UserID = -1;
-            string UserName = "", PassWord = "";
+            string UserName = "", PassWord = "", Salt = "";
             bool IsActive = false;
 
 
-            if (clsUserData.GetInfoByPersonID(PersonID, ref UserID, ref UserName, ref PassWord, ref IsActive))
+            if (clsUserData.GetInfoByPersonID(PersonID, ref UserID, ref UserName, ref PassWord, ref Salt, ref IsActive)) 
             {
-                return new clsUser(UserID, PersonID, UserName, PassWord, IsActive);
+                return new clsUser(UserID, PersonID, UserName, PassWord, Salt, IsActive);
             }
             else
             {
@@ -121,12 +143,13 @@ namespace DVLDSystem_BusinessLayer
         public static clsUser Find(string UserName, string PassWord)
         {
             int UserID = -1, PersonID = -1;
+            string Salt = "";
             bool IsActive = false;
 
 
-            if (clsUserData.GetInfo(UserName, PassWord, ref UserID, ref PersonID, ref IsActive))
+            if (clsUserData.GetInfo(UserName, PassWord, ref UserID, ref PersonID, ref Salt, ref IsActive)) 
             {
-                return new clsUser(UserID, PersonID, UserName, PassWord, IsActive);
+                return new clsUser(UserID, PersonID, UserName, PassWord, Salt, IsActive);
             }
             else
             {
@@ -145,7 +168,7 @@ namespace DVLDSystem_BusinessLayer
         //Add New User :-
         private bool _AddNew()
         {
-            this.UserID = clsUserData.AddNew(this.PersonID, this.UserName, this.PassWord, this.IsActive);
+            this.UserID = clsUserData.AddNew(this.PersonID, this.UserName, this.PassWord, this.Salt, this.IsActive);
             return (this.UserID != -1);
         }
 
@@ -153,7 +176,7 @@ namespace DVLDSystem_BusinessLayer
         //Update User :-
         private bool _Update()
         {
-            return clsUserData.Update(this.UserID, this.PersonID, this.UserName, this.PassWord, this.IsActive);
+            return clsUserData.Update(this.UserID, this.PersonID, this.UserName, this.PassWord, this.Salt, this.IsActive);
         }
 
 

@@ -209,7 +209,7 @@ namespace DVLDSystem_DataAccessLayer
 
 
         //Get User Info By UserID :-
-        public static bool GetInfo(int UserID, ref int PersonID, ref string UserName, ref string PassWord, ref bool IsActive)
+        public static bool GetInfo(int UserID, ref int PersonID, ref string UserName, ref string PassWord, ref string Salt, ref bool IsActive)
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString);
@@ -234,6 +234,50 @@ namespace DVLDSystem_DataAccessLayer
                     PersonID = (int)reader["PersonID"];
                     UserName = (string)reader["UserName"];
                     PassWord = (string)reader["PassWord"];
+                    Salt = (string)reader["Salt"];
+                    IsActive = (bool)reader["IsActive"];
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                isFound = false;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return isFound;
+        }
+
+
+        //Get User Info By UserName :-
+        public static bool GetInfo(string UserName, ref int UserID, ref int PersonID, ref string PassWord, ref string Salt, ref bool IsActive)
+        {
+            bool isFound = false;
+            SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString);
+
+            string query = @"SELECT * FROM Users
+                           WHERE Users.UserName = @UserName;";
+
+            SqlCommand command = new SqlCommand(query, connection);
+
+            //Get User Info By UserName :-
+            command.Parameters.AddWithValue("@UserName", UserName);
+
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    isFound = true;
+
+                    UserID = (int)reader["UserID"];
+                    PersonID = (int)reader["PersonID"];
+                    PassWord = (string)reader["PassWord"];
+                    Salt = (string)reader["Salt"];
                     IsActive = (bool)reader["IsActive"];
                 }
                 reader.Close();
@@ -251,7 +295,7 @@ namespace DVLDSystem_DataAccessLayer
 
 
         //Get User Info By PersonID :-
-        public static bool GetInfoByPersonID(int PersonID, ref int UserID, ref string UserName, ref string PassWord, ref bool IsActive)
+        public static bool GetInfoByPersonID(int PersonID, ref int UserID, ref string UserName, ref string PassWord, ref string Salt, ref bool IsActive)
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString);
@@ -276,6 +320,7 @@ namespace DVLDSystem_DataAccessLayer
                     UserID = (int)reader["UserID"];
                     UserName = (string)reader["UserName"];
                     PassWord = (string)reader["PassWord"];
+                    Salt = (string)reader["Salt"];
                     IsActive = (bool)reader["IsActive"];
                 }
                 reader.Close();
@@ -293,7 +338,7 @@ namespace DVLDSystem_DataAccessLayer
 
 
         //Get User Info By UserName AND PassWord :-
-        public static bool GetInfo(string UserName, string PassWord, ref int UserID, ref int PersonID, ref bool IsActive)
+        public static bool GetInfo(string UserName, string PassWord, ref int UserID, ref int PersonID, ref string Salt, ref bool IsActive)
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString);
@@ -318,6 +363,7 @@ namespace DVLDSystem_DataAccessLayer
 
                     UserID = (int)reader["UserID"];
                     PersonID = (int)reader["PersonID"];
+                    Salt = (string)reader["Salt"];
                     IsActive = (bool)reader["IsActive"];
                 }
                 reader.Close();
@@ -369,16 +415,16 @@ namespace DVLDSystem_DataAccessLayer
 
 
         //Add New User :-
-        public static int AddNew(int PersonID, string UserName, string PassWord, bool IsActive)
+        public static int AddNew(int PersonID, string UserName, string PassWord, string Salt, bool IsActive)
         {
             int ID = -1;
 
             SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString);
 
             string query = @"INSERT INTO Users
-                           (PersonID , UserName , PassWord , IsActive)
+                           (PersonID , UserName , PassWord , Salt , IsActive)
                            VALUES
-                           (@PersonID , @UserName , @PassWord , @IsActive);
+                           (@PersonID , @UserName , @PassWord , @Salt , @IsActive);
                            SELECT SCOPE_IDENTITY();";
 
             SqlCommand command = new SqlCommand(query, connection);
@@ -386,6 +432,7 @@ namespace DVLDSystem_DataAccessLayer
             command.Parameters.AddWithValue("@PersonID", PersonID);
             command.Parameters.AddWithValue("@UserName", UserName);
             command.Parameters.AddWithValue("@PassWord", PassWord);
+            command.Parameters.AddWithValue("@Salt", Salt);
             command.Parameters.AddWithValue("@IsActive", IsActive);
 
             try
@@ -411,13 +458,13 @@ namespace DVLDSystem_DataAccessLayer
 
 
         //Update User By UserID :-
-        public static bool Update(int UserID, int PersonID, string UserName, string PassWord, bool IsActive)
+        public static bool Update(int UserID, int PersonID, string UserName, string PassWord, string Salt, bool IsActive)
         {
             int rowsAffected = 0;
             SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString);
 
             string query = @"UPDATE Users
-                           SET PersonID = @PersonID , UserName = @UserName , PassWord = @PassWord , IsActive = @IsActive 
+                           SET PersonID = @PersonID , UserName = @UserName , PassWord = @PassWord , Salt = @Salt , IsActive = @IsActive 
                            Where Users.UserID = @UserID;";
 
             SqlCommand command = new SqlCommand(query, connection);
@@ -425,6 +472,7 @@ namespace DVLDSystem_DataAccessLayer
             command.Parameters.AddWithValue("@PersonID", PersonID);
             command.Parameters.AddWithValue("@UserName", UserName);
             command.Parameters.AddWithValue("@PassWord", PassWord);
+            command.Parameters.AddWithValue("@Salt", Salt);
             command.Parameters.AddWithValue("@IsActive", IsActive);
 
             //Update User By ID :-

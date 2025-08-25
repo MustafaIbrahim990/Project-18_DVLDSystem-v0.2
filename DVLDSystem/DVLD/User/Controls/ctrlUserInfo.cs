@@ -35,12 +35,12 @@ namespace DVLDSystem.DVLD.User.Controls
         private void _ResetUserInfo()
         {
             ctrlPersonInfo1.ResetPersonInfo();
-            _UserID = -1;
-            lblUserID.Text = "????";
-            lblUserName.Text = "????";
-            lblIsActive.Text = "????";
-        }
 
+            _UserID = -1;
+            lblUserID.Text = "N/A";
+            lblUserName.Text = "[????]";
+            lblIsActive.Text = "[????]";
+        }
         private void _FillUserInfo()
         {
             _UserID = _UserInfo.PersonID;

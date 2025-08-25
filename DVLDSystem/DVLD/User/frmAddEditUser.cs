@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DVLDSystem.Gobal_Classes;
 using DVLDSystem_BusinessLayer;
+using DVLDSystem.DVLD.Global_User;
 
 namespace DVLDSystem.DVLD.User.Controls
 {
@@ -52,17 +53,16 @@ namespace DVLDSystem.DVLD.User.Controls
             txtConfirmPassWord.Text = "";
             chbIsActive.Checked = true;
         }
-
         private void _RefreshUserInfoInUpdateMode()
         {
             lblUserID.Text = _UserInfo.UserID.ToString();
             txtUserName.Text = _UserInfo.UserName;
-            txtPassWord.Text = _UserInfo.PassWord;
-            txtConfirmPassWord.Text = _UserInfo.PassWord;
+            txtPassWord.Text = "";
+            txtConfirmPassWord.Text = "";
+            txtPassWord.Focus();
             chbIsActive.Checked = _UserInfo.IsActive;
             ctrlPersonInfoWithFilter1.LoadPersonInfo(_UserInfo.PersonID);
         }
-
         private void _LoadDataInUpdateMode()
         {
             _UserInfo = clsUser.Find(_UserID);
@@ -75,15 +75,27 @@ namespace DVLDSystem.DVLD.User.Controls
             }
             _RefreshUserInfoInUpdateMode();
         }
-
-        private void _GetUserInfo()
+        private bool _SaveUserNameANDPassWordInLocalRegistry()
+        {
+            return clsGlobal.SaveUserNameANDPassWord(txtUserName.Text.Trim(), _UserInfo.PassWord);
+        }
+        private bool _GetUserInfo()
         {
             _UserInfo.PersonID = ctrlPersonInfoWithFilter1.SelectedPersonID;
             _UserInfo.UserName = txtUserName.Text.Trim();
-            _UserInfo.PassWord = txtPassWord.Text.Trim();
             _UserInfo.IsActive = chbIsActive.Checked;
-        }
 
+            //Every Change in PassWord Must Change Salt too.
+            string Salt = "";
+            _UserInfo.PassWord = clsGlobal.GenerateHash(txtPassWord.Text.Trim(), ref Salt);
+            _UserInfo.Salt = Salt;
+
+            if (_Mode == enMode.eUpdate && clsGlobal.CurrentUser.UserName == _UserInfo.UserName) 
+            {
+                return _SaveUserNameANDPassWordInLocalRegistry();
+            }
+            return true;
+        }
         private void _SaveData()
         {
             if (!this.ValidateChildren())
@@ -93,7 +105,8 @@ namespace DVLDSystem.DVLD.User.Controls
                 return;
             }
 
-            _GetUserInfo();
+            if (!_GetUserInfo())
+                return;
 
             if (_UserInfo.Save())
             {

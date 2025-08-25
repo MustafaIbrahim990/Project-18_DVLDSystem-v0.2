@@ -16,3 +16,12 @@ C:\My_Projects\Project 17 _ DVLD System\DVLDSystem-BusinessLayer\obj\Debug\DVLDS
 C:\My_Projects\Project 17 _ DVLD System\DVLDSystem-BusinessLayer\obj\Debug\DVLDSystem-BusinessLayer.csproj.CopyComplete
 C:\My_Projects\Project 17 _ DVLD System\DVLDSystem-BusinessLayer\obj\Debug\DVLDSystem-BusinessLayer.dll
 C:\My_Projects\Project 17 _ DVLD System\DVLDSystem-BusinessLayer\obj\Debug\DVLDSystem-BusinessLayer.pdb
+C:\My_Projects\Project 18 _ DVLDSystem-v0.2\DVLDSystem-BusinessLayer\bin\Debug\DVLDSystem-BusinessLayer.dll
+C:\My_Projects\Project 18 _ DVLDSystem-v0.2\DVLDSystem-BusinessLayer\bin\Debug\DVLDSystem-BusinessLayer.pdb
+C:\My_Projects\Project 18 _ DVLDSystem-v0.2\DVLDSystem-BusinessLayer\bin\Debug\DVLDSystem-DataAccessLayer.dll
+C:\My_Projects\Project 18 _ DVLDSystem-v0.2\DVLDSystem-BusinessLayer\bin\Debug\DVLDSystem-DataAccessLayer.pdb
+C:\My_Projects\Project 18 _ DVLDSystem-v0.2\DVLDSystem-BusinessLayer\obj\Debug\DVLDSystem-BusinessLayer.csproj.AssemblyReference.cache
+C:\My_Projects\Project 18 _ DVLDSystem-v0.2\DVLDSystem-BusinessLayer\obj\Debug\DVLDSystem-BusinessLayer.csproj.CoreCompileInputs.cache
+C:\My_Projects\Project 18 _ DVLDSystem-v0.2\DVLDSystem-BusinessLayer\obj\Debug\DVLDSystem-BusinessLayer.csproj.CopyComplete
+C:\My_Projects\Project 18 _ DVLDSystem-v0.2\DVLDSystem-BusinessLayer\obj\Debug\DVLDSystem-BusinessLayer.dll
+C:\My_Projects\Project 18 _ DVLDSystem-v0.2\DVLDSystem-BusinessLayer\obj\Debug\DVLDSystem-BusinessLayer.pdb
